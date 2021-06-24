@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:onbording/constants.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -11,6 +10,7 @@ class SignInScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
+        bottom: false,
         child: Padding(
           padding: const EdgeInsets.all(defaultPadding),
           child: Column(
@@ -27,7 +27,7 @@ class SignInScreen extends StatelessWidget {
                 "Please sign into your account",
                 style: TextStyle(color: Colors.white30, height: 1.8),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              Spacer(),
               SignInForm(),
               SizedBox(height: defaultPadding),
               SizedBox(
@@ -55,6 +55,7 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              Spacer(),
             ],
           ),
         ),
@@ -74,10 +75,13 @@ class SignInForm extends StatelessWidget {
         children: [
           TextFormField(
             validator: emailValidator,
+            onSaved: (newValue) {},
+            keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(hintText: "Email"),
           ),
           SizedBox(height: defaultPadding),
           TextFormField(
+            validator: passwordValidator,
             decoration: InputDecoration(hintText: "Password"),
           ),
           Align(
@@ -90,11 +94,16 @@ class SignInForm extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.1),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  // do what you want
+                  _formKey.currentState!.save();
+                }
+              },
               child: Text("Sign In"),
             ),
           ),
